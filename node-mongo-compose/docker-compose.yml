@@ -1,0 +1,24 @@
+# ESCOLHE A VERSAO DO DOCKER QUE SERA USADO
+version: '3'
+# DETERMINA OS SERVICOS
+services:
+# CRIANDO O SERVICO DB PARA ELE SE CONECTAR COM O MONGO
+  db:
+  #VAI SER CRIADA UMA IMAGEM QUE USA O MONGODB NA VERSAO 3.4
+    image: mongo:3.4
+# CRIA O SERVICO DO BACKEND PARA 
+  backend:
+  #VAI SER CRIADA UMA IMAGEM QUE USA O NODE NA VERSAO 8.1
+    image: node:8.1
+    #MAPEAR VOLUME QUE LE OS ARQUIVOS APP.JS E PACKAGE.JSON
+    volumes:
+      - ./backend:/backend
+    ports:
+      - 3000:3000
+    command: bash -c "cd /backend && npm i && node app"
+  frontend:
+    image: nginx:1.13
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    ports:
+      - 80:80
